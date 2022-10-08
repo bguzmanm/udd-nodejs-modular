@@ -32,26 +32,39 @@
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
             }],
-          },
-        options: {
-          animations: {
-            tension: {
-              duration: 1000,
-              easing: 'linear',
-              from: 2,
-              to: 1,
-              loop: true
-            }
-          },
-          scales: {
-            y: { // defining min and max so hiding the dataset does not change scale range
-              min: 1,
-              max: 15
-            }
           }
-        }
     });
   });
+  
+  const bitcoin = document.getElementById('bitcoingggg');
+  let bitArray = [];
+  let bitsFechaArray = [];
+  
+  get('https://www.mindicador.cl/api/bitcoin')
+  .then((data) => {
+
+    nombre = data.nombre;
+    let bitcoins = data.serie;
+
+    bitArray = bitcoins.map((serie) => serie.valor);
+    bitsFechaArray = bitcoins.map((serie) => serie.fecha.split('T')[0]);
+
+    const myBitcoin = new Chart(bitcoin, {
+        type: 'line',
+        data: {
+            labels: bitsFechaArray,
+            datasets: [{
+                label: nombre,
+                data: bitArray,
+                borderWidth: 1,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+            }],
+          },
+        
+    });
+  });
+
 
 
 })();
